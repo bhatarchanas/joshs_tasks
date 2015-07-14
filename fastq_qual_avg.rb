@@ -27,17 +27,32 @@ for i in qual_lines
 end
 #puts qual_lines.inspect
 
-# Obtaining the avg quality scores
+# Obtaining the quality scores in an array
 qual_scores = [] 
-for each in 0..qual_lines.size
+for each in 0..qual_lines.size-1
   #puts qual_lines[each].inspect
   each_element = qual_lines[each]
   each_element.split("").each do |i|
-    puts i
+    #puts i
     current_score = i.ord
     corrected_score = current_score - 64 
     qual_scores.push(corrected_score)
   end  
 end 
+#puts qual_scores
 
-puts corrected_scores
+# Averaging the quality scores 
+tot_qual = 0
+avg_qual = 0
+for each in 0..qual_scores.size-1
+  #puts each
+  tot_qual += qual_scores[each]
+  avg_qual = tot_qual/qual_scores.size
+end
+
+puts "Total quality is", tot_qual 
+puts "Number of quality scores is", qual_scores.size
+puts "Average quality is", avg_qual 
+
+
+
