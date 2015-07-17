@@ -1,0 +1,6 @@
+
+File.open("sample.fastq", "r") do |f|
+  f.each_line do |line|
+    puts line
+  end
+end
