@@ -12,14 +12,29 @@ reverse_primer_reverse_complement_re = Bio::Sequence::NA.new("RGYTACCTTGTTACGACT
 #p reverse_primer_reverse_complement_re
 
 
-file = Bio::FlatFile.auto("BEI_Mock_Even_Modified_with_ee.fastq")
+file = Bio::FlatFile.auto("BEI_Mock_Even.fastq")
 file.each do |entry|
   #puts entry.sequence_string.class
-  if forward_primer_re.match(entry.sequence_string.downcase)
-    out_file.write(entry)                                                                                              
+  if forward_primer_re.match(entry.sequence_string.downcase) && reverse_primer_reverse_complement_re.match(entry.sequence_string.downcase)  
+    #puts entry
+    out_file.write("@"+entry.definition.to_s)
+    out_file.write("\n")
+    out_file.write(entry.naseq.complement.to_s.upcase)
+    out_file.write("\n")
+    out_file.write("+")
+    out_file.write("\n")
+    out_file.write(entry.quality_string)
+    out_file.write("\n")
   end
-  if forward_primer_reverse_complement_re.match(entry.sequence_string.downcase)
-    out_file.write(entry.seq.reverse!)
+  if forward_primer_reverse_complement_re.match(entry.sequence_string.downcase) && reverse_primer_re.match(entry.sequence_string.downcase)
+    out_file.write("@"+entry.definition)
+    out_file.write("\n")
+    out_file.write(entry.naseq.complement.upcase)
+    out_file.write("\n")
+    out_file.write("+")
+    out_file.write("\n")
+    out_file.write(entry.quality_string)
+    out_file.write("\n")
   end 
 end
 
